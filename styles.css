@@ -1,0 +1,18 @@
+:root {
+  --primary-colour: #1f6feb;
+  --background-colour: #ffffff;
+  --text-colour: #111111;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-colour);
+  color: var(--text-colour);
+  margin: 0;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
