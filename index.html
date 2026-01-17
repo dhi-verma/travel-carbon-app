@@ -3,26 +3,83 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DfT Travel Carbon Calculator</title>
+  <title>DfT Travel Carbon Calculator (Student Project)</title>
+  <meta name="description" content="A student-built web app to estimate CO₂e emissions for common business travel modes (land and air) using a small subset of UK Government GHG factors." />
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
   <header class="page-header">
     <div class="container">
-      <h1>Travel Carbon Calculator</h1>
-      <p class="subtitle">Initial UI styling for the MVP</p>
+      <h1>DfT Travel Carbon Calculator</h1>
+      <p class="subtitle">Calculate CO₂e emissions for business travel (Student project)</p>
     </div>
   </header>
 
   <main class="container">
+    <!-- CALCULATOR -->
     <section class="card">
-      <h2>Calculator (coming soon)</h2>
-      <p class="muted">Form inputs and calculations will be added in later iterations.</p>
+      <h2>Calculator</h2>
+
+      <!-- Messages -->
+      <div id="error" class="message message-error" style="display:none;"></div>
+
+      <form id="calcForm" novalidate>
+        <!-- Common inputs -->
+        <div class="grid grid-4">
+          <div class="field">
+            <label for="distance">Distance</label>
+            <input id="distance" name="distance" type="number" inputmode="decimal" min="0" step="0.1" value="10" />
+          </div>
+
+          <div class="field">
+            <label for="unit">Unit</label>
+            <select id="unit" name="unit">
+              <option value="km" selected>Kilometres</option>
+              <option value="miles">Miles</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="passengers">Passengers</label>
+            <input id="passengers" name="passengers" type="number" min="1" step="1" value="1" />
+          </div>
+
+          <div class="field">
+            <label for="carType">Car Type</label>
+            <select id="carType" name="carType">
+              <option value="petrol" selected>Petrol</option>
+              <option value="diesel">Diesel</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Placeholder for future land transport options -->
+        <div id="landOptionsWrap" style="display:none;"></div>
+
+        <!-- Placeholder for future air travel options -->
+        <div id="airOptionsWrap" style="display:none;"></div>
+
+        <!-- Buttons -->
+        <div class="actions">
+          <button id="calculateBtn" class="btn btn-primary" type="submit">Calculate</button>
+          <button id="clearBtn" class="btn btn-secondary" type="button">Clear</button>
+        </div>
+      </form>
     </section>
 
+    <!-- RESULTS (placeholder) -->
+    <section id="resultsSection" class="card" style="display:none;">
+      <h2>Results</h2>
+      <p class="muted">Results will appear here after calculation.</p>
+    </section>
+
+    <!-- FOOTER -->
     <footer class="footer">
-      <p class="muted">Student project for Software Engineering Summative 1.</p>
+      <p class="muted">
+        Student Project — simplified factors for demonstration. Not an official DfT tool.
+      </p>
     </footer>
   </main>
 
