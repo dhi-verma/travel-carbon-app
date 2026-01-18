@@ -34,46 +34,6 @@ const FACTORS_2025 = {
       hybrid: { unit: "vehicle.km", kgco2e_per_unit: 0.12825 },
       plug_in_hybrid: { unit: "vehicle.km", kgco2e_per_unit: 0.10461 },
       electric: { unit: "vehicle.km", kgco2e_per_unit: 0.04047 }
-    },
-    taxis: {
-      regular_taxi: { unit: "passenger.km", kgco2e_per_unit: 0.14861 },
-      black_cab: { unit: "passenger.km", kgco2e_per_unit: 0.20402 }
-    },
-    bus: {
-      average_local: { unit: "passenger.km", kgco2e_per_unit: 0.10385 },
-      london: { unit: "passenger.km", kgco2e_per_unit: 0.06875 },
-      coach: { unit: "passenger.km", kgco2e_per_unit: 0.02776 }
-    },
-    rail: {
-      national_rail: { unit: "passenger.km", kgco2e_per_unit: 0.03546 },
-      underground: { unit: "passenger.km", kgco2e_per_unit: 0.0278 },
-      light_rail_tram: { unit: "passenger.km", kgco2e_per_unit: 0.0286 },
-      international_rail: { unit: "passenger.km", kgco2e_per_unit: 0.00446 }
-    }
-  },
-
-  air: {
-    domestic_to_from_uk: {
-      average: { unit: "passenger.km", with_rf: 0.22928, without_rf: 0.13552 }
-    },
-    short_haul_to_from_uk: {
-      average: { unit: "passenger.km", with_rf: 0.12786, without_rf: 0.07559 },
-      economy: { unit: "passenger.km", with_rf: 0.12576, without_rf: 0.07435 },
-      business: { unit: "passenger.km", with_rf: 0.18863, without_rf: 0.11152 }
-    },
-    long_haul_to_from_uk: {
-      average: { unit: "passenger.km", with_rf: 0.15282, without_rf: 0.09043 },
-      economy: { unit: "passenger.km", with_rf: 0.11704, without_rf: 0.06926 },
-      premium_economy: { unit: "passenger.km", with_rf: 0.18726, without_rf: 0.11081 },
-      business: { unit: "passenger.km", with_rf: 0.3394, without_rf: 0.20083 },
-      first: { unit: "passenger.km", with_rf: 0.46814, without_rf: 0.27701 }
-    },
-    international_non_uk: {
-      average: { unit: "passenger.km", with_rf: 0.14253, without_rf: 0.0842 },
-      economy: { unit: "passenger.km", with_rf: 0.10916, without_rf: 0.06449 },
-      premium_economy: { unit: "passenger.km", with_rf: 0.17465, without_rf: 0.10318 },
-      business: { unit: "passenger.km", with_rf: 0.31656, without_rf: 0.18701 },
-      first: { unit: "passenger.km", with_rf: 0.43663, without_rf: 0.25794 }
     }
   }
 };
@@ -96,33 +56,6 @@ const EMISSION_FACTORS = {
       // Alias: UI might use "ev"
       electric: { label: "Car (Electric)", basis: "vehicle", unit: "vehicle.km", factor: FACTORS_2025.land.car.electric.kgco2e_per_unit },
       ev: { label: "Car (Electric)", basis: "vehicle", unit: "vehicle.km", factor: FACTORS_2025.land.car.electric.kgco2e_per_unit }
-    },
-
-    bus: {
-      // Alias: UI uses "local"
-      local: { label: "Local Bus", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.average_local.kgco2e_per_unit },
-      coach: { label: "Coach", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.coach.kgco2e_per_unit },
-      // Optional extra for future UI
-      london: { label: "Bus (London)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.london.kgco2e_per_unit },
-      average_local: { label: "Bus (Average local)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.average_local.kgco2e_per_unit }
-    },
-
-    rail: {
-      // Aliases: UI uses "national" and "metro"
-      national: { label: "National Rail", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.national_rail.kgco2e_per_unit },
-      metro: { label: "Metro / Tram", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.underground.kgco2e_per_unit },
-      // Optional extra for future UI
-      underground: { label: "Underground", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.underground.kgco2e_per_unit },
-      light_rail_tram: { label: "Light rail / Tram", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.light_rail_tram.kgco2e_per_unit },
-      international_rail: { label: "International Rail", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.international_rail.kgco2e_per_unit }
-    },
-
-    taxi: {
-      // Alias: UI uses "regular"
-      regular: { label: "Taxi", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.taxis.regular_taxi.kgco2e_per_unit },
-      // Optional extra for future UI
-      regular_taxi: { label: "Taxi (Regular)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.taxis.regular_taxi.kgco2e_per_unit },
-      black_cab: { label: "Taxi (Black cab)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.taxis.black_cab.kgco2e_per_unit }
     }
   }
 };
@@ -148,12 +81,6 @@ function normalizePassengers(passengers) {
   const p = Number(passengers);
   if (!Number.isFinite(p) || p < 1) return 1;
   return Math.floor(p);
-}
-
-function normalizeFlightClass(flightClass) {
-  // UI uses "premium"; dataset uses "premium_economy"
-  if (flightClass === "premium") return "premium_economy";
-  return flightClass;
 }
 
 /* ---------------------------
