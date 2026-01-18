@@ -1,6 +1,8 @@
 /**
  * script.js
  * DfT Travel Carbon Calculator
+ * 
+ * Branch 9: Adds mode selector (Land/Air) with show/hide logic
  */
 
 (function () {
@@ -48,20 +50,25 @@
   // ---------- DOM elements ----------
   const form = $('calcForm');
 
-  // Core inputs (Branch 6)
+  // Core inputs
+  const modeEl = $('mode'); // "land" or "air" (Branch 9)
   const distanceEl = $('distance');
-  const unitEl = $('unit'); // "km" or "miles"
+  const unitEl = $('unit');
   const passengersEl = $('passengers');
-  const carTypeEl = $('carType'); // "petrol" / "diesel" (Branch 6 UI)
+  const carTypeEl = $('carType');
+
+  // Containers
+  const landOptionsWrap = $('landOptionsWrap');
+  const airOptionsWrap = $('airOptionsWrap');
 
   // Buttons
   const clearBtn = $('clearBtn');
 
   // Messages
   const errorEl = $('error');
-  const warningEl = $('warning'); // present in final HTML; harmless if unused
+  const warningEl = $('warning');
 
-  // Results outputs (final Results IDs)
+  // Results outputs
   const resultsSection = $('resultsSection');
   const resultsTitleEl = $('resultsTitle');
   const outDistanceEl = $('outDistance');
@@ -100,6 +107,19 @@
     show(warningEl, true);
   }
 
+  // Branch 9: Show/hide land/air containers based on mode
+  function setModeVisibility() {
+    const mode = modeEl ? modeEl.value : 'land';
+    
+    if (landOptionsWrap) {
+      landOptionsWrap.style.display = mode === 'land' ? '' : 'none';
+    }
+    
+    if (airOptionsWrap) {
+      airOptionsWrap.style.display = mode === 'air' ? '' : 'none';
+    }
+  }
+
   // ---------- Rendering ----------
   function renderLandResult(r) {
     if (resultsTitleEl) resultsTitleEl.textContent = r.label;
@@ -109,7 +129,6 @@
     if (outPerPersonEl) outPerPersonEl.textContent = `${format2(r.perPerson)} kg CO₂e`;
     if (outTotalEl) outTotalEl.textContent = `${format2(r.total)} kg CO₂e`;
 
-    // Clear “Basis: vehicle” confusion
     if (outBasisEl) {
       if (r.basis === 'vehicle') {
         outBasisEl.textContent =
@@ -179,7 +198,15 @@
     });
   }
 
-  // Clear form + results (car-only)
+  // Branch 9: Mode selector change
+  if (modeEl) {
+    modeEl.addEventListener('change', () => {
+      clearMessages();
+      setModeVisibility();
+    });
+  }
+
+  // Clear form + results
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
       clearMessages();
@@ -187,14 +214,18 @@
       if (distanceEl) distanceEl.value = '10';
       if (unitEl) unitEl.value = 'km';
       if (passengersEl) passengersEl.value = '1';
-
       if (carTypeEl) carTypeEl.value = 'petrol';
+      
+      // Reset mode to land
+      if (modeEl) modeEl.value = 'land';
 
       show(resultsSection, false);
+      setModeVisibility();
     });
   }
 
   // ---------- Init ----------
   show(resultsSection, false);
   clearMessages();
+  setModeVisibility();
 })();
