@@ -1,11 +1,11 @@
 /**
  * src/calc.js
- * DfT Travel Carbon Calculator (Student Project)
+ * DfT Travel Carbon Calculator
  *
  * This file contains the emissions calculation logic and a small embedded subset
- * of the UK Government GHG Conversion Factors (2025) needed for this coursework MVP.
+ * of the UK Government GHG Conversion Factors (2025) needed for this MVP.
  *
- * Design choices (kept simple for a student project):
+ * Design choices:
  * - No external dependencies, so it runs on GitHub Pages.
  * - Factors are embedded so the app works offline once loaded.
  * - Land travel: cars are "per vehicle-km", bus/rail/taxi are "per passenger-km".
