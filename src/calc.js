@@ -1,3 +1,17 @@
+/**
+ * src/calc.js
+ * DfT Travel Carbon Calculator
+ *
+ * This file contains the emissions calculation logic and a small embedded subset
+ * of the UK Government GHG Conversion Factors (2025) needed for this MVP.
+ *
+ * Design choices:
+ * - No external dependencies, so it runs on GitHub Pages.
+ * - Factors are embedded so the app works offline once loaded.
+ * - Land travel: cars are "per vehicle-km", bus/rail/taxi are "per passenger-km".
+ * - Air travel: factors are per passenger-km and provided with and without RF.
+ */
+
 /* ---------------------------
    Embedded Factors (2025 subset)
    --------------------------- */
@@ -20,6 +34,46 @@ const FACTORS_2025 = {
       hybrid: { unit: "vehicle.km", kgco2e_per_unit: 0.12825 },
       plug_in_hybrid: { unit: "vehicle.km", kgco2e_per_unit: 0.10461 },
       electric: { unit: "vehicle.km", kgco2e_per_unit: 0.04047 }
+    },
+    taxis: {
+      regular_taxi: { unit: "passenger.km", kgco2e_per_unit: 0.14861 },
+      black_cab: { unit: "passenger.km", kgco2e_per_unit: 0.20402 }
+    },
+    bus: {
+      average_local: { unit: "passenger.km", kgco2e_per_unit: 0.10385 },
+      london: { unit: "passenger.km", kgco2e_per_unit: 0.06875 },
+      coach: { unit: "passenger.km", kgco2e_per_unit: 0.02776 }
+    },
+    rail: {
+      national_rail: { unit: "passenger.km", kgco2e_per_unit: 0.03546 },
+      underground: { unit: "passenger.km", kgco2e_per_unit: 0.0278 },
+      light_rail_tram: { unit: "passenger.km", kgco2e_per_unit: 0.0286 },
+      international_rail: { unit: "passenger.km", kgco2e_per_unit: 0.00446 }
+    }
+  },
+
+  air: {
+    domestic_to_from_uk: {
+      average: { unit: "passenger.km", with_rf: 0.22928, without_rf: 0.13552 }
+    },
+    short_haul_to_from_uk: {
+      average: { unit: "passenger.km", with_rf: 0.12786, without_rf: 0.07559 },
+      economy: { unit: "passenger.km", with_rf: 0.12576, without_rf: 0.07435 },
+      business: { unit: "passenger.km", with_rf: 0.18863, without_rf: 0.11152 }
+    },
+    long_haul_to_from_uk: {
+      average: { unit: "passenger.km", with_rf: 0.15282, without_rf: 0.09043 },
+      economy: { unit: "passenger.km", with_rf: 0.11704, without_rf: 0.06926 },
+      premium_economy: { unit: "passenger.km", with_rf: 0.18726, without_rf: 0.11081 },
+      business: { unit: "passenger.km", with_rf: 0.3394, without_rf: 0.20083 },
+      first: { unit: "passenger.km", with_rf: 0.46814, without_rf: 0.27701 }
+    },
+    international_non_uk: {
+      average: { unit: "passenger.km", with_rf: 0.14253, without_rf: 0.0842 },
+      economy: { unit: "passenger.km", with_rf: 0.10916, without_rf: 0.06449 },
+      premium_economy: { unit: "passenger.km", with_rf: 0.17465, without_rf: 0.10318 },
+      business: { unit: "passenger.km", with_rf: 0.31656, without_rf: 0.18701 },
+      first: { unit: "passenger.km", with_rf: 0.43663, without_rf: 0.25794 }
     }
   }
 };
@@ -42,7 +96,48 @@ const EMISSION_FACTORS = {
       // Alias: UI might use "ev"
       electric: { label: "Car (Electric)", basis: "vehicle", unit: "vehicle.km", factor: FACTORS_2025.land.car.electric.kgco2e_per_unit },
       ev: { label: "Car (Electric)", basis: "vehicle", unit: "vehicle.km", factor: FACTORS_2025.land.car.electric.kgco2e_per_unit }
+    },
+
+    bus: {
+      // Alias: UI uses "local"
+      local: { label: "Local Bus", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.average_local.kgco2e_per_unit },
+      coach: { label: "Coach", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.coach.kgco2e_per_unit },
+      // Optional extra for future UI
+      london: { label: "Bus (London)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.london.kgco2e_per_unit },
+      average_local: { label: "Bus (Average local)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.bus.average_local.kgco2e_per_unit }
+    },
+
+    rail: {
+      // Aliases: UI uses "national" and "metro"
+      national: { label: "National Rail", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.national_rail.kgco2e_per_unit },
+      metro: { label: "Metro / Tram", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.underground.kgco2e_per_unit },
+      // Optional extra for future UI
+      underground: { label: "Underground", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.underground.kgco2e_per_unit },
+      light_rail_tram: { label: "Light rail / Tram", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.light_rail_tram.kgco2e_per_unit },
+      international_rail: { label: "International Rail", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.rail.international_rail.kgco2e_per_unit }
+    },
+
+    taxi: {
+      // Alias: UI uses "regular"
+      regular: { label: "Taxi", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.taxis.regular_taxi.kgco2e_per_unit },
+      // Optional extra for future UI
+      regular_taxi: { label: "Taxi (Regular)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.taxis.regular_taxi.kgco2e_per_unit },
+      black_cab: { label: "Taxi (Black cab)", basis: "passenger", unit: "passenger.km", factor: FACTORS_2025.land.taxis.black_cab.kgco2e_per_unit }
     }
+  },
+
+  /**
+   * Air travel:
+   * Your UI uses "short / medium / long" and "economy / premium / business / first".
+   * In the condensed 2025 set, "premium" maps to "premium_economy".
+   *
+   * For "medium", the best available match in this subset is "international_non_uk".
+   * (This is documented so it's transparent in the README.)
+   */
+  air: {
+    short: FACTORS_2025.air.short_haul_to_from_uk,
+    medium: FACTORS_2025.air.international_non_uk,
+    long: FACTORS_2025.air.long_haul_to_from_uk
   }
 };
 
@@ -67,6 +162,12 @@ function normalizePassengers(passengers) {
   const p = Number(passengers);
   if (!Number.isFinite(p) || p < 1) return 1;
   return Math.floor(p);
+}
+
+function normalizeFlightClass(flightClass) {
+  // UI uses "premium"; dataset uses "premium_economy"
+  if (flightClass === "premium") return "premium_economy";
+  return flightClass;
 }
 
 /* ---------------------------
@@ -128,6 +229,64 @@ function calculateLandEmissions(distance, unit, landType, option, passengers) {
   };
 }
 
+/**
+ * Air travel calculation (with and without Radiative Forcing).
+ *
+ * Returns:
+ * - perPersonWithRF / perPersonWithoutRF
+ * - totalWithRF / totalWithoutRF
+ *
+ * If a class is not available in this condensed subset, it falls back to "average".
+ * This makes the UI robust and avoids "blank output" errors.
+ */
+function calculateAirEmissions(distance, unit, haul, flightClass, passengers) {
+  const distanceKm = normalizeDistance(Number(distance), unit);
+  const pax = normalizePassengers(passengers);
+
+  if (!Number.isFinite(distanceKm) || distanceKm <= 0) {
+    return { success: false, error: "Please enter a valid distance." };
+  }
+
+  const haulSet = EMISSION_FACTORS.air[haul];
+  if (!haulSet) {
+    return { success: false, error: "Invalid haul type selected." };
+  }
+
+  const cls = normalizeFlightClass(flightClass);
+  let factorData = haulSet[cls];
+  let usedClass = cls;
+  let warning = null;
+
+  if (!factorData && haulSet.average) {
+    factorData = haulSet.average;
+    usedClass = "average";
+    warning = "Selected class not available in the condensed 2025 subset; using average factor.";
+  }
+
+  if (!factorData) {
+    return { success: false, error: "Invalid flight class selected for this haul." };
+  }
+
+  const withRF = factorData.with_rf;
+  const withoutRF = factorData.without_rf;
+
+  const perPersonWithRF = withRF * distanceKm;
+  const perPersonWithoutRF = withoutRF * distanceKm;
+
+  return {
+    success: true,
+    label: `Flight (${haul}, ${usedClass})`,
+    distanceKm: roundToTwo(distanceKm),
+    passengers: pax,
+    flightClass: usedClass,
+    warning: warning,
+    perPersonWithRF: roundToTwo(perPersonWithRF),
+    perPersonWithoutRF: roundToTwo(perPersonWithoutRF),
+    totalWithRF: roundToTwo(perPersonWithRF * pax),
+    totalWithoutRF: roundToTwo(perPersonWithoutRF * pax)
+  };
+}
+
 /* ---------------------------
    Public API (Browser + Tests)
    --------------------------- */
@@ -139,6 +298,7 @@ const CarbonCalc = {
 
   // Calculators
   calculateLandEmissions,
+  calculateAirEmissions,
 
   // Small utilities (useful in tests)
   roundToTwo,
