@@ -1,0 +1,12 @@
+{
+  "name": "dft-travel-carbon-app",
+  "version": "1.0.0",
+  "description": "A web app to estimate travel emissions (kgCO2e) using a small subset of UK Government conversion factors (2025).",
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
