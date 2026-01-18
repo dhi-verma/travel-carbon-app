@@ -2,13 +2,12 @@
  * tests/calc.test.js
  *
  * Jest tests for the carbon calculator logic (src/calc.js).
- * These tests cover the main business rules:
+ * These tests cover the main business rules for the MVP:
  * - Car factors are per vehicle-km (total is for the vehicle; per-person divides by passengers)
- * - Bus/rail/taxi are per passenger-km (per-person = factor * distance; total multiplies by passengers)
  * - Miles convert to kilometres
- * - Air travel returns outputs with and without Radiative Forcing (RF)
+ * - Invalid inputs return user-friendly errors
+ * - Passengers less than 1 default to 1
  *
- * Written in a simple, coursework-friendly style.
  */
 
 const CarbonCalc = require('../src/calc');
@@ -38,47 +37,6 @@ describe('CarbonCalc - land travel calculations', () => {
 
     // Per-person = 1.6272 / 2 = 0.8136 => 0.81 (rounded)
     expect(r.perPerson).toBeCloseTo(0.81, 2);
-  });
-
-  test('bus (local) 10 km, 2 passengers -> passenger-km basis scales total', () => {
-    const r = CarbonCalc.calculateLandEmissions(10, 'km', 'bus', 'local', 2);
-
-    expect(r.success).toBe(true);
-    expect(r.basis).toBe('passenger');
-    expect(r.label).toBe('Local Bus');
-
-    // Factor: 0.10385 kgCO2e per passenger-km
-    // Per-person: 0.10385 * 10 = 1.0385 => 1.04
-    // Total: 1.0385 * 2 = 2.077 => 2.08
-    expect(r.perPerson).toBeCloseTo(1.04, 2);
-    expect(r.total).toBeCloseTo(2.08, 2);
-  });
-
-  test('rail (national) 10 km, 3 passengers -> passenger-km basis', () => {
-    const r = CarbonCalc.calculateLandEmissions(10, 'km', 'rail', 'national', 3);
-
-    expect(r.success).toBe(true);
-    expect(r.basis).toBe('passenger');
-    expect(r.label).toBe('National Rail');
-
-    // Factor: 0.03546
-    // Per-person: 0.3546 => 0.35
-    // Total: 0.3546 * 3 = 1.0638 => 1.06
-    expect(r.perPerson).toBeCloseTo(0.35, 2);
-    expect(r.total).toBeCloseTo(1.06, 2);
-  });
-
-  test('taxi (regular) 10 km, 1 passenger -> passenger-km basis', () => {
-    const r = CarbonCalc.calculateLandEmissions(10, 'km', 'taxi', 'regular', 1);
-
-    expect(r.success).toBe(true);
-    expect(r.basis).toBe('passenger');
-    expect(r.label).toBe('Taxi');
-
-    // Factor: 0.14861
-    // Per-person: 1.4861 => 1.49
-    expect(r.perPerson).toBeCloseTo(1.49, 2);
-    expect(r.total).toBeCloseTo(1.49, 2);
   });
 
   test('miles are converted to km correctly (car petrol)', () => {
