@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Travel Carbon Calculator</title>
+  <title>DfT Travel Carbon Calculator</title>
   <meta name="description" content="A web app to estimate CO₂e emissions for common business travel modes (land and air) using a small subset of UK Government GHG factors." />
 
   <link rel="stylesheet" href="styles.css" />
@@ -24,9 +24,10 @@
 
       <!-- Messages -->
       <div id="error" class="message message-error" style="display:none;"></div>
+      <div id="warning" class="message message-warning" style="display:none;"></div>
 
       <form id="calcForm" novalidate>
-        <!-- Common inputs -->
+        <!-- Branch 6: Car-only common inputs -->
         <div class="grid grid-4">
           <div class="field">
             <label for="distance">Distance</label>
@@ -55,10 +56,8 @@
           </div>
         </div>
 
-        <!-- Placeholder for future land transport options -->
+        <!-- Placeholders for future iterations (kept as empty containers) -->
         <div id="landOptionsWrap" style="display:none;"></div>
-
-        <!-- Placeholder for future air travel options -->
         <div id="airOptionsWrap" style="display:none;"></div>
 
         <!-- Buttons -->
@@ -69,10 +68,31 @@
       </form>
     </section>
 
-    <!-- RESULTS (placeholder) -->
+    <!-- RESULTS (final IDs retained so final script can write into them) -->
     <section id="resultsSection" class="card" style="display:none;">
       <h2>Results</h2>
-      <p class="muted">Results will appear here after calculation.</p>
+
+      <h3 id="resultsTitle" class="result-title">—</h3>
+
+      <div class="result-grid">
+        <div class="result-box">
+          <div class="result-label">Distance</div>
+          <div id="outDistance" class="result-value">—</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">Per person</div>
+          <div id="outPerPerson" class="result-value">—</div>
+        </div>
+
+        <div class="result-box">
+          <div class="result-label">Total</div>
+          <div id="outTotal" class="result-value">—</div>
+        </div>
+      </div>
+
+      <p id="outBasis" class="muted">—</p>
+      <p id="outFactor" class="muted">—</p>
     </section>
 
     <!-- FOOTER -->
@@ -83,6 +103,8 @@
     </footer>
   </main>
 
+  <!-- IMPORTANT: calc.js MUST load before script.js -->
+  <script src="src/calc.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
