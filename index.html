@@ -27,8 +27,16 @@
       <div id="warning" class="message message-warning" style="display:none;"></div>
 
       <form id="calcForm" novalidate>
-        <!-- Branch 6: Car-only common inputs -->
+        <!-- Common inputs -->
         <div class="grid grid-4">
+          <div class="field">
+            <label for="mode">Travel Mode</label>
+            <select id="mode" name="mode">
+              <option value="land" selected>Land (Car/Bus/Rail)</option>
+              <option value="air">Air (Flight)</option>
+            </select>
+          </div>
+
           <div class="field">
             <label for="distance">Distance</label>
             <input id="distance" name="distance" type="number" inputmode="decimal" min="0" step="0.1" value="10" />
@@ -46,19 +54,50 @@
             <label for="passengers">Passengers</label>
             <input id="passengers" name="passengers" type="number" min="1" step="1" value="1" />
           </div>
+        </div>
 
-          <div class="field">
-            <label for="carType">Car Type</label>
-            <select id="carType" name="carType">
-              <option value="petrol" selected>Petrol</option>
-              <option value="diesel">Diesel</option>
-            </select>
+        <!-- LAND OPTIONS (car-only for Branch 9) -->
+        <div id="landOptionsWrap">
+          <div class="divider"></div>
+
+          <div class="grid grid-2">
+            <div id="carTypeWrap" class="field">
+              <label for="carType">Car Type</label>
+              <select id="carType" name="carType">
+                <option value="petrol" selected>Petrol</option>
+                <option value="diesel">Diesel</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <!-- Placeholders for future iterations (kept as empty containers) -->
-        <div id="landOptionsWrap" style="display:none;"></div>
-        <div id="airOptionsWrap" style="display:none;"></div>
+        <!-- AIR OPTIONS (placeholder - non-functional) -->
+        <div id="airOptionsWrap" style="display:none;">
+          <div class="divider"></div>
+
+          <div class="grid grid-2">
+            <div class="field">
+              <label for="airHaul">Flight Haul</label>
+              <select id="airHaul" name="airHaul" disabled>
+                <option value="short" selected>Short haul</option>
+                <option value="medium">Medium haul</option>
+                <option value="long">Long haul</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="airClass">Cabin Class</label>
+              <select id="airClass" name="airClass" disabled>
+                <option value="economy" selected>Economy</option>
+                <option value="premium">Premium economy</option>
+                <option value="business">Business</option>
+                <option value="first">First</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="hint">Air travel will be enabled in a later iteration.</p>
+        </div>
 
         <!-- Buttons -->
         <div class="actions">
@@ -68,7 +107,7 @@
       </form>
     </section>
 
-    <!-- RESULTS (final IDs retained so final script can write into them) -->
+    <!-- RESULTS -->
     <section id="resultsSection" class="card" style="display:none;">
       <h2>Results</h2>
 
