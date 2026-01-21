@@ -207,3 +207,39 @@ The final design evolved significantly from the MVP, adding:
 Responsive layout and clear messaging (errors/warnings) were prioritised to keep the interface usable for non-technical users.
 
 </details>
+
+<details closed>
+<summary>Project Management</summary>
+
+## Project Management Structure
+
+![Kanban Board](docs/The-Project-Kanban-board.png)
+
+***Figure Eight**: The Project Kanban board on [GitHub Projects](https://github.com/users/dhi-verma/projects/2). This allows tickets (issues) to be tracked.*
+
+This project was managed using an Agile, sprint-based workflow. Work was broken into small deliverables (features, enhancements, testing, and documentation) and tracked as GitHub issues on a Kanban board. This made progress visible and ensured each change could be planned, implemented, reviewed, and merged in a controlled way.
+
+I worked in sprints that each had a set of objectives and tickets to accomplish before reviewing progress and planning the next sprint. During development, I kept my tickets (issues) within the project Kanban board, shown in Figure Eight. This allowed me to break the project development into chunks that could be assigned specific labels, branches, and pull requests. The board has five sections: Backlog, Ready, In Progress, In Review, and Done.
+
+Each branch that I created followed the naming convention of `feature/` or `docs/` followed by the issue description. When changes occurred within the scope, they were added to the sprint and prioritised accordingly. If I was working in a team environment, I would ensure that Scrum meetings were incorporated throughout the sprints to gauge progress and address blockers.
+
+### Sprint Overview
+
+Development progressed through three sprints:
+
+**Sprint One** focused on establishing the foundation with design and basic project setup. This sprint delivered the initial wireframe, project structure, foundational CSS styling, and the calculator form scaffold.
+
+**Sprint Two** centered on implementing core functionality using test-driven development. This sprint produced the calculation engine with tests, connected the UI to make the calculator functional and added the CI/CD pipeline with GitHub Actions.
+
+**Sprint Three** expanded the application to its full feature set including results UI enhancements, land/air mode selection, and completion of all transport modes with the comparison table.
+
+After each sprint, I conducted a review to assess what went well and what could be improved, allowing refinements for the next sprint. This iterative reflection helped maintain quality and adapt to emerging requirements.
+
+### Workflow and Conventions
+
+**One issue → one branch → one pull request** 
+This workflow was followed throughout the project to maintain traceability between requirements, implementation, and code review. Each pull request was linked to its corresponding issue and merging the PR automatically closed the issue. I kept the Kanban board synchronised with the repository state.
+
+Labels were applied to categorise work by type (Design, Enhancement, Testing, CI/CD, Documentation) and by sprint (Sprint One, Sprint Two, Sprint Three), enabling efficient filtering and sprint planning.
+
+</details>
