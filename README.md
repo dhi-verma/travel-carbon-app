@@ -68,3 +68,80 @@ The app contains the following features:
 > Flight emissions are displayed **with Radiative Forcing (RF)** by default to reflect full climate impact. A **without-RF** value is also shown for transparency.
 
 </details>
+
+<details closed>
+<summary>Technical Documentation</summary>
+
+## Technical Documentation
+
+The Travel Carbon Calculator is a static web application requiring no server setup. Node.js and npm are only needed for running the test suite.
+
+### Local Setup
+
+**Check prerequisites:**
+```sh
+node -v
+npm -v
+```
+
+If Node.js is not installed, download from [nodejs.org](https://nodejs.org/).
+
+**Clone and install:**
+```sh
+git clone https://github.com/dhi-verma/travel-carbon-app.git
+cd travel-carbon-app
+npm install
+```
+
+### Running Tests
+
+**Execute test suite:**
+```sh
+npm test
+```
+
+**Generate coverage report:**
+```sh
+npm test -- --coverage --watchAll=false
+```
+
+The test suite validates emission calculations, unit conversions, passenger scaling, and input validation across numerous test cases.
+
+### Running the Application
+
+The calculator runs directly in any browser. Open `index.html`.
+
+For development with a local server:
+```sh
+python -m http.server 8000
+```
+
+Access at `http://localhost:8000`.
+
+## Technical Stack
+
+**Stack:**
+* HTML, CSS, JavaScript
+
+**Testing & CI:**
+* Jest for unit testing
+* [GitHub Actions](https://github.com/dhi-verma/travel-carbon-app/actions) for automated test runs
+
+**Tools:**
+* [GitHub Projects](https://github.com/users/dhi-verma/projects/2) for Kanban workflow
+* [Figma](https://www.figma.com/design/HC0veTiBJUiM2WAavs45Eg/carbon-web-app-figma-design?m=auto&t=M49Esx0awY1pOrvq-1) for design prototyping
+
+**Application Files:**
+* `index.html`
+* `script.js`
+* `src/calc.js`
+* `styles.css`
+
+**Testing Files:**
+* `tests/calc.test.js` 
+* `package.json` 
+
+**Data:**
+* UK Government GHG Conversion Factors (2025) embedded in `src/calc.js`
+
+</details>
