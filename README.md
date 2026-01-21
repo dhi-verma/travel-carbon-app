@@ -145,3 +145,65 @@ Access at `http://localhost:8000`.
 * UK Government GHG Conversion Factors (2025) embedded in `src/calc.js`
 
 </details>
+
+<details closed>
+<summary>Design</summary>
+
+## Design and [Figma](https://www.figma.com/design/HC0veTiBJUiM2WAavs45Eg/carbon-web-app-figma-design?m=auto&t=M49Esx0awY1pOrvq-1) Prototyping
+
+### User Persona
+
+User personas were developed to understand the target users and their needs when calculating travel emissions.
+
+![User Persona](docs/user-persona.png)
+
+***Figure Three**: User persona for a sustainability analyst at the Department for Transport, highlighting goals, context, pain points, and how the app addresses their needs.*
+
+The primary user is an analyst at DfT who regularly produces reporting or planning outputs involving travel emissions. They often work with spreadsheets and policy documents and need quick, indicative estimates for comparison. While they understand the sustainability context, they may not be confident applying GHG conversion factors correctly, so outputs must be transparent and explainable.
+
+### Empathy Map
+
+An empathy map was developed to understand the user's experience and workflow challenges when working with travel emission calculations.
+
+![Empathy Map](docs/empathy-map.png)
+
+***Figure Four**: Empathy map based on the user persona, showing what the analyst thinks, hears, sees, and does in their role.*
+
+The empathy map highlights that users need fast estimates and work under time pressure. They often rely on large conversion-factor spreadsheets. This app should reduce manual steps (unit conversion, factor selection, passenger scaling) and present clear results.
+
+### Initial Wireframe Design
+
+![Initial MVP Wireframe](docs/figma-mvp-design.png)
+
+***Figure Five**: Initial MVP wireframe focusing on the core calculator concept with car emissions only.*
+
+The initial wireframe validated the core flow with minimal features:
+- one distance input (km)
+- one travel option (car – petrol)
+- simple output display
+
+### Design Exploration
+
+![Initial Figma Designs](docs/initial-figma-design.png)
+
+***Figure Six**: Three frames exploring different layout approaches for the MVP calculator interface.*
+
+Multiple layout options were explored in the initial design phase. The single-column card-based layout was selected for its clarity and mobile-friendly responsive behavior.
+
+### Final Design
+
+![Final Figma Design](docs/final-figma-design.png)
+
+***Figure Seven**: Final design showing the complete calculator with various transport mode selection and comparison functionality.*
+
+The final design evolved significantly from the MVP, adding:
+
+- **Travel mode selector** to separate Land and Air journeys
+- **Conditional inputs** so users only see the relevant options (land type vs flight haul/class)
+- **Structured results grid** showing distance, per-person emissions, and total emissions clearly
+- **Comparison table** to support side-by-side evaluation of travel choices
+- **Green visual theme** to reflect sustainability focus (without using official DfT branding)
+
+Responsive layout and clear messaging (errors/warnings) were prioritised to keep the interface usable for non-technical users.
+
+</details>
