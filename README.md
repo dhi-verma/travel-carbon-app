@@ -243,3 +243,27 @@ This workflow was followed throughout the project to maintain traceability betwe
 Labels were applied to categorise work by type (Design, Enhancement, Testing, CI/CD, Documentation) and by sprint (Sprint One, Sprint Two, Sprint Three), enabling efficient filtering and sprint planning.
 
 </details>
+
+<details closed>
+<summary>Coding Journey</summary>
+
+## Coding Journey
+
+This project was built in iterations from a working MVP to a complete calculator with multiple transport modes.
+
+1. **UI scaffold (HTML/CSS first)**  
+   I started by building the page structure in `index.html` and styling it with `styles.css`. This added the layout (cards, form fields, buttons, and responsive grids) before any calculation logic was introduced.
+
+2. **Calculation engine built with TDD**  
+   The core emissions logic was developed in `src/calc.js` using Test Driven Development. Tests were written first in `tests/calc.test.js` to define expected behaviour (distance conversion, passenger scaling, vehicle-km vs passenger-km basis, and validation).
+
+3. **DOM + event handling**  
+   Once the calculation functions were reliable, I implemented UI behaviour in `script.js`. This included reading user inputs, handling form submission and button clicks, switching between modes/options, and controlling visibility of sections (results and comparison).
+
+4. **Wiring UI to the Calculation engine**  
+   The UI was then connected to the calculation engine by passing validated inputs into the relevant calculation function and rendering outputs back into the results section (distance, per-person, total emissions, and factor notes).
+
+5. **Iterative expansion + refinement**  
+   Later iterations expanded the feature set (additional land/air options, RF handling for flights, comparison table, and improved error/warning messaging) while maintaining reliability through tests and CI.
+
+</details>
