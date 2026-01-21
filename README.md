@@ -1,14 +1,10 @@
-## Initial Design (MVP)
+# DfT Travel Carbon Calculator ✈️🚗🚄
 
-The initial version of the Travel Carbon Calculator was designed as a very small
-Minimum Viable Product (MVP).
+README for Summative One: DfT Travel Carbon Calculator Web App.
 
-The first iteration focuses on a single use case:
-- Estimating carbon emissions for a car (petrol) journey
-- Distance input only (kilometres)
-- Single output showing estimated CO₂e emissions
+**Live Application:** [https://dhi-verma.github.io/travel-carbon-app/](https://dhi-verma.github.io/travel-carbon-app/)
 
-This deliberately limited scope allowed the core calculation logic and user flow
-to be validated before expanding to additional travel modes and features.
+**Figma Design:** Navigate to [Figma Design](https://www.figma.com/design/HC0veTiBJUiM2WAavs45Eg/carbon-web-app-figma-design)
 
-![Initial MVP wireframe](figma-mvp-design.png)
+[![CI](https://github.com/dhi-verma/travel-carbon-app/actions/workflows/ci.yml/badge.svg)](https://github.com/dhi-verma/travel-carbon-app/actions)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
