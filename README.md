@@ -325,3 +325,31 @@ Google Lighthouse was used to evaluate frontend quality. The application achieve
 
 </details>
 
+<details closed>
+<summary>Evaluation and Conclusion</summary>
+
+## Evaluation
+
+The Travel Carbon Calculator successfully meets its core objective. It provides a simple and transparent way to estimate and compare travel emissions across land and air modes. The tool reduces reliance on manual spreadsheet calculations. It automates unit conversion from miles to kilometres. It handles passenger scaling automatically. It applies the correct factor basis for vehicle-km versus passenger-km. The results layout clearly separates per-person and total emissions. This helps non-technical users interpret outputs correctly.
+
+A key strength is the separation of concerns in the codebase. The calculation engine is isolated in `src/calc.js`. The UI behaviour and rendering are handled in `script.js`. This structure improves maintainability and supports reliable testing. Test Driven Development was applied to build the calculation logic incrementally. The final Jest suite includes many unit tests. Coverage reporting shows over 90% for statements and lines. This provides confidence that core rules work across typical inputs and edge cases. These include distance validation and passenger defaults and miles conversion. GitHub Issues and feature branches and pull requests provided traceability between requirements and implementation.
+
+From a usability perspective the application performs well. The mode selector and conditional inputs reduce clutter. The comparison table adds practical value by enabling side-by-side evaluation of journey options. A Lighthouse audit achieved perfect scores across Performance and Accessibility and Best Practices and SEO. This demonstrates that a lightweight client-side build can meet modern web standards.
+
+**Limitations:**
+
+There are also limitations. The calculator uses a condensed subset of the UK Government GHG Conversion Factors (2025). These are embedded directly in the code for simplicity and offline use. Values will need updating when factors change. In the aviation logic the medium haul option is approximated using the closest available category in the subset. When a selected class is unavailable the calculator falls back to an average factor. A warning is shown in these cases. Outputs are indicative estimates and not audited figures. The tool is not suitable for formal carbon reporting without further validation.
+
+**Learning Outcomes:**
+
+This project strengthened my ability to apply TDD. I learned to structure work into sprints with clear acceptance criteria. I used GitHub Projects for tracking progress. I implemented CI/CD pipelines with GitHub Actions to prevent regressions. The project also improved my frontend skills in responsive layout and DOM state handling and producing clear technical documentation. Working through the entire development lifecycle independently has prepared me for collaborative software development in professional settings.
+
+**Future Improvements:**
+
+Future iterations could include several enhancements. Externalise conversion factors into a data source that updates annually. Add export functionality for reports in CSV or PDF formats. Provide clearer radiative forcing guidance for users. Integrate with journey planning APIs to auto-calculate distances between locations. Add historical tracking to monitor organisational travel emissions over time.
+
+## Conclusion
+
+Overall this has been a good learning experience in software engineering practices. I have applied GitHub workflow management and HTML/CSS/JavaScript development and testing methodologies to produce a functional tool. The Travel Carbon Calculator demonstrates professional development practices. These include Test Driven Development and Continuous Integration and Agile sprint planning and comprehensive documentation. The application delivers genuine value for sustainability-focused decision-making in travel planning. The project has strengthened my technical skills and understanding of the software development lifecycle.
+
+</details>
