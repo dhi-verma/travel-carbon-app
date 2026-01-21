@@ -267,3 +267,61 @@ This project was built in iterations from a working MVP to a complete calculator
    Later iterations expanded the feature set (additional land/air options, RF handling for flights, comparison table, and improved error/warning messaging) while maintaining reliability through tests and CI.
 
 </details>
+
+<details closed>
+<summary>Testing</summary>
+
+## Testing
+
+### Test Driven Development (TDD)
+
+Test Driven Development (TDD) was used to build the core emissions calculation logic. This approach involves writing failing tests first, implementing code to satisfy those tests, and then refactoring while keeping tests passing.
+
+**First failing tests (RED):**
+
+![Failing Tests](docs/fail-tdd-image.png)
+
+***Figure Nine**: Failing unit tests before the calculation logic was implemented.*
+
+Initial tests defined expected behaviour for distance conversion (miles → km), passenger handling, vehicle-km vs passenger-km basis rules, and input validation. At this stage, tests failed because the calculation functions had not been implemented.
+
+**Passing tests (GREEN):**
+
+![Passing Tests](docs/pass-tdd-image.png)
+
+***Figure Ten**: Passing unit tests after implementing the calculation logic.*
+
+The calculation engine in `src/calc.js` was implemented to satisfy each test case. Helper functions were added for validation, conversion, and rounding, and edge cases such as invalid distances and passenger counts were handled. This ensured core logic was correct before expanding to more modes and features.
+
+### Continuous Integration (CI)
+
+Continuous Integration was implemented using GitHub Actions. The test suite runs automatically on every pull request and on merges to the `main` branch.
+
+![CI Pipeline](docs/ci-yml-image.png)
+
+***Figure Eleven**: GitHub Actions pipeline showing automated test execution.*
+
+This workflow installs dependencies and runs the Jest suite, helping prevent regressions and ensuring the calculator remains reliable as features are added.
+
+### Test Coverage
+
+The final Jest suite includes various unit tests covering:
+
+- Land transport calculations using **vehicle-km** and **passenger-km** bases  
+- Air travel calculations **with** and **without Radiative Forcing (RF)**  
+- Passenger scaling behaviour  
+- Miles to kilometres conversion  
+- Validation of invalid inputs and edge cases  
+
+Coverage reporting shows over 90% line and statement coverage for the calculation engine, providing confidence in the correctness of the core business logic.
+
+### Google Lighthouse Audit
+
+Google Lighthouse was used to evaluate frontend quality. The application achieved **high scores across Performance, Accessibility, Best Practices, and SEO**, reflecting efficient loading, accessible markup, and adherence to modern web standards.
+
+![Lighthouse Audit](docs/google-lighthouse-image.png)
+
+***Figure Twelve**: Lighthouse audit results for the deployed Travel Carbon Calculator show 100% across all metrics.*
+
+</details>
+
